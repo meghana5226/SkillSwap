@@ -7,24 +7,31 @@ import { getProfile } from "../../api/profileApi";
 
 const ProfilePage = () => {
 
-    const [user, setUser] = useState(null);
+    const [user,setUser] =
+    useState(null);
 
-    useEffect(() => {
+    useEffect(()=>{
+
         loadProfile();
-    }, []);
 
-    const loadProfile = async () => {
+    },[]);
 
-        try {
 
-            const data = await getProfile();
+    const loadProfile = async()=>{
+
+        try{
+
+            const data =
+            await getProfile();
 
             setUser(data);
 
-        } catch (error) {
+        }
+
+        catch(error){
 
             console.log(
-                "Profile loading failed",
+                "Profile load failed",
                 error
             );
 
@@ -32,34 +39,40 @@ const ProfilePage = () => {
 
     };
 
-    return (
+    return(
 
         <div className="profile-page">
 
             <ProfileHeader
-                user={user}
+            user={user}
             />
 
-            <div className="profile-sections">
+            <div
+            className="profile-sections"
+            >
 
-                <div className="profile-card">
+                <div
+                className="profile-card"
+                >
 
                     <h2>
+
                         About
+
                     </h2>
 
                     <p>
 
-                        {user?.bio || "No bio available"}
+                        {user?.bio || "No bio added"}
 
                     </p>
 
                 </div>
 
                 <UserSkillList
-                    skills={
-                        user?.skills || []
-                    }
+                skills={
+                    user?.skills || []
+                }
                 />
 
             </div>

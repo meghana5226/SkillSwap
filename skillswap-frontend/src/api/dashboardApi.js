@@ -1,8 +1,9 @@
 import axiosClient from "./axiosClient";
 
-export const getDashboardStats = async () => {
+export const getDashboardStats = async()=>{
 
-    const response = await axiosClient.get(
+    const response =
+    await axiosClient.get(
         "/dashboard/stats"
     );
 

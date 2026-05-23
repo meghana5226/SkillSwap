@@ -1,27 +1,30 @@
-import axiosClient
-from "./axiosClient";
+import axiosClient from "./axiosClient";
 
-export const loginApi=
-(data)=>{
+export const signupApi = async(data)=>{
 
-return axiosClient.post(
+    const response =
+    await axiosClient.post(
 
-"/auth/login",
-data
+        "/auth/register",
+        data
 
-);
+    );
+
+    return response.data;
 
 };
 
 
-export const signupApi=
-(data)=>{
+export const loginApi = async(data)=>{
 
-return axiosClient.post(
+    const response =
+    await axiosClient.post(
 
-"/auth/register",
-data
+        "/auth/login",
+        data
 
-);
+    );
+
+    return response.data;
 
 };

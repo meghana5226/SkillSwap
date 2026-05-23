@@ -1,45 +1,60 @@
 import axiosClient from "./axiosClient";
 
-export const getRequests=async()=>{
+export const getRequests = async()=>{
 
-const response=
-await axiosClient.get(
-"/requests"
-);
+    const response =
+    await axiosClient.get(
+        "/requests"
+    );
 
-return response.data;
-
-};
-
-export const sendRequest=async(skillId)=>{
-
-const response=
-await axiosClient.post(
-`/requests/${skillId}`
-);
-
-return response.data;
+    return response.data;
 
 };
 
-export const acceptRequest=async(id)=>{
 
-const response=
-await axiosClient.put(
-`/requests/${id}/accept`
-);
+export const sendRequest = async(skillId)=>{
 
-return response.data;
+    const response =
+    await axiosClient.post(
+        `/requests/${skillId}`
+    );
+
+    return response.data;
 
 };
 
-export const rejectRequest=async(id)=>{
 
-const response=
-await axiosClient.put(
-`/requests/${id}/reject`
-);
+export const acceptRequest = async(id)=>{
 
-return response.data;
+    const response =
+    await axiosClient.put(
+        `/requests/${id}/accept`
+    );
+
+    return response.data;
+
+};
+
+
+export const rejectRequest = async(id)=>{
+
+    const response =
+    await axiosClient.put(
+        `/requests/${id}/reject`
+    );
+
+    return response.data;
+
+};
+
+
+export const completeRequest = async(id)=>{
+
+    const response =
+    await axiosClient.put(
+        `/requests/${id}/complete`
+    );
+
+    return response.data;
 
 };

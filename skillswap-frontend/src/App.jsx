@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import ProfilePage from "./pages/profile/ProfilePage";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -34,6 +34,14 @@ path="/skills"
 element={
 <ProtectedRoute>
 <SkillsPage/>
+</ProtectedRoute>
+}
+/>
+<Route
+path="/profile"
+element={
+<ProtectedRoute>
+    <ProfilePage/>
 </ProtectedRoute>
 }
 />

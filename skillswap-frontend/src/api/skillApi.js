@@ -1,28 +1,51 @@
 import axiosClient from "./axiosClient";
 
-export const getAllSkills=async()=>{
+export const getAllSkills = async()=>{
 
-const response=
-await axiosClient.get(
-"/skills"
-);
+    const response =
+    await axiosClient.get(
+        "/skills"
+    );
 
-return response.data;
+    return response.data;
 
 };
 
 
-export const searchSkills=async(
-keyword
-)=>{
+export const addSkill = async(data)=>{
 
-const response=
-await axiosClient.get(
+    const response =
+    await axiosClient.post(
+        "/skills",
+        data
+    );
 
-`/skills/search?keyword=${keyword}`
+    return response.data;
 
-);
+};
 
-return response.data;
+
+export const searchSkills = async(keyword)=>{
+
+    const response =
+    await axiosClient.get(
+
+        `/skills/search?keyword=${keyword}`
+
+    );
+
+    return response.data;
+
+};
+
+
+export const deleteSkill = async(id)=>{
+
+    const response =
+    await axiosClient.delete(
+        `/skills/${id}`
+    );
+
+    return response.data;
 
 };
