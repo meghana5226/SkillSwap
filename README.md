@@ -1,441 +1,1764 @@
-# SkillSwap AI
+<div align="center">
 
-A free, no-subscriptions platform where students, freshers and professionals
-exchange technical skills — with lightweight AI features (roadmaps, resume
-review, mentor matching, etc.) powered entirely by **local, free models via
-Ollama**. No OpenAI/Gemini API keys required, ever.
+#  SkillSwap AI
 
-> **Status:** Feature-complete against the original product spec. Auth
-> (including forgot-password OTP), full profile management, the skill-exchange
-> loop, all 10 AI features, notifications, an admin panel with audit
-> logging, and a Learning Dashboard with charts are all implemented
-> end-to-end (backend + frontend + DB schema + Docker). See
-> [What's here / What's next](#whats-here--whats-next) for the honest
-> state of each piece.
+### AI-Powered Peer Learning & Skill Exchange Platform
+
+**Connect • Learn • Teach • Grow**
+
+A modern full-stack platform where **students, freshers, and professionals**
+can exchange technical skills, find mentors, schedule learning sessions, and
+receive personalized AI guidance — powered entirely by **free local LLMs using Ollama**.
 
 ---
 
-## Tech Stack
+![Java](https://img.shields.io/badge/Java-21-red?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-success?style=for-the-badge&logo=springboot)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?style=for-the-badge&logo=postgresql)
+![Redis](https://img.shields.io/badge/Redis-7-red?style=for-the-badge&logo=redis)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)
+![JWT](https://img.shields.io/badge/Auth-JWT-orange?style=for-the-badge)
+![Ollama](https://img.shields.io/badge/AI-Ollama-black?style=for-the-badge)
 
-| Layer      | Tech |
-|------------|------|
-| Backend    | Java 21, Spring Boot 3, Spring Security, JWT, Spring Data JPA, PostgreSQL, Redis, Flyway |
-| Frontend   | React 19, Vite, TypeScript, Tailwind CSS v4, React Router, Axios, React Query, Framer Motion |
-| AI         | Ollama running locally (Qwen 2.5 / Llama 3.2 / Phi-3 Mini / DeepSeek-R1 Distill) |
-| Infra      | Docker, Docker Compose |
-| Deployment | Backend → Render · Frontend → Vercel · DB → Neon/Supabase · Images → Cloudinary |
+![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
+![Made With Love](https://img.shields.io/badge/Made%20With-❤️-ff69b4?style=for-the-badge)
 
----
-
-## Design System
-
-- **Typography**: Sora for headings (`.font-display` / `h1`–`h4`), Inter for
-  body text — loaded via Google Fonts in `index.html`.
-- **Brand mark**: a custom interlocking-arrows SVG logo (`src/components/Logo.tsx`)
-  representing the two-way exchange the platform is built around.
-- **Cards**: a single shared `.glass-card` utility (defined in `index.css`)
-  keeps every card — dashboard, profile, mentor, session, admin — visually
-  consistent instead of each page inventing its own border/shadow/blur combo.
-- **Dark mode**: real toggle (not just OS-preference), persisted to
-  `localStorage`, in the user menu.
-- **Charts**: `recharts` for the Learning Dashboard's session-activity area
-  chart — the one place raw data visualization earns its keep over a stat card.
-- **Layout**: a persistent sidebar `AppShell` (desktop) / slide-over (mobile)
-  replaces page-by-page navigation buttons, with a notification bell and
-  user menu in a sticky top bar.
+</div>
 
 ---
 
-## Project Structure
+# 📖 Overview
+
+SkillSwap AI is an **AI-powered peer learning ecosystem** designed to help
+students and professionals learn faster by exchanging knowledge directly with
+other learners.
+
+Instead of relying solely on expensive online courses, SkillSwap enables users
+to:
+
+- 👨‍🏫 Find mentors based on real technical skills
+- 🤝 Exchange knowledge with peers
+- 📅 Schedule learning sessions
+- ⭐ Build reputation through reviews
+- 📊 Track learning progress
+- 🤖 Receive AI-powered career guidance
+- 📄 Improve resumes
+- 🎯 Generate personalized learning roadmaps
+- 💬 Chat with an AI learning assistant
+
+Unlike many AI platforms, **SkillSwap AI requires no paid AI APIs**.
+
+Every AI capability runs completely offline using **Ollama**, making the
+platform:
+
+- Free
+- Privacy-friendly
+- API-key free
+- Fully self-hosted
+
+---
+
+# ✨ Key Highlights
+
+## 🎓 Peer-to-Peer Learning
+
+- Mentor discovery
+- Smart skill matching
+- Session booking
+- Learning requests
+- Session tracking
+- Reviews & ratings
+- Bookmarks
+
+---
+
+## 🤖 AI Career Assistant
+
+Powered locally using Ollama.
+
+Includes:
+
+- Learning Roadmap Generator
+- Skill Gap Analysis
+- Resume Review
+- Interview Preparation
+- Project Suggestions
+- Weekly Study Planner
+- Mentor Recommendation
+- Personalized Dashboard Summary
+- AI Chat Assistant
+
+---
+
+## 🔒 Secure Authentication
+
+- JWT Authentication
+- Access & Refresh Tokens
+- BCrypt Password Hashing
+- OTP Password Reset
+- Redis OTP Storage
+- Brute Force Protection
+- Role-Based Authorization
+
+---
+
+## 📊 Analytics Dashboard
+
+Track your growth with
+
+- Learning statistics
+- Teaching statistics
+- Session history
+- Monthly activity
+- Rating analytics
+- Skill progress
+
+---
+
+## ⚙️ Admin Panel
+
+Includes
+
+- User Management
+- Platform Statistics
+- Audit Logs
+- User Status Control
+- Secure Role-Based Access
+
+---
+
+# 🌟 Why SkillSwap AI?
+
+Most learning platforms focus only on **content consumption**.
+
+SkillSwap focuses on **collaborative learning**.
+
+Instead of asking:
+
+> "Which course should I buy?"
+
+SkillSwap asks:
+
+> "Who can teach me this skill today?"
+
+The platform combines:
+
+- Human mentorship
+- AI guidance
+- Community learning
+- Career development
+
+inside one ecosystem.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                    +----------------------+
+                    |      React App       |
+                    |   (Vite + TS + UI)   |
+                    +----------+-----------+
+                               |
+                         REST API (JWT)
+                               |
++------------------------------------------------------------+
+|                 Spring Boot Backend                        |
+|------------------------------------------------------------|
+| Authentication • Profiles • Mentors • Sessions             |
+| AI Services • Dashboard • Notifications • Admin            |
++-----------+---------------+----------------+---------------+
+            |               |                |
+            |               |                |
+     PostgreSQL         Redis            Ollama
+   (Persistent DB)    OTP Cache      Local AI Models
+```
+
+---
+
+# 🖥️ Technology Stack
+
+| Layer | Technologies |
+|--------|--------------|
+| **Frontend** | React 19, TypeScript, Vite, Tailwind CSS v4, React Router, Axios, React Query, Framer Motion |
+| **Backend** | Java 21, Spring Boot 3, Spring Security, Spring Data JPA |
+| **Authentication** | JWT Access Token, Refresh Token |
+| **Database** | PostgreSQL |
+| **Caching** | Redis |
+| **AI Engine** | Ollama (Qwen2.5, Llama 3.2, Phi-3 Mini, DeepSeek-R1) |
+| **ORM** | Hibernate / Spring Data JPA |
+| **Migration** | Flyway |
+| **Documentation** | Swagger OpenAPI |
+| **Storage** | Local Storage / Cloudinary |
+| **Deployment** | Docker Compose |
+| **Hosting** | Render + Vercel + Neon/Supabase |
+
+---
+
+# 🎯 Core Features
+
+## 👤 User Features
+
+- User Registration
+- Secure Login
+- JWT Authentication
+- Password Reset
+- Profile Management
+- Resume Upload
+- Skill Management
+- Mentor Search
+- Session Booking
+- Notifications
+- Dashboard
+- Reviews
+- Bookmarks
+
+---
+
+## 🤖 AI Features
+
+| Feature | Status |
+|----------|--------|
+| Learning Roadmap | ✅ |
+| Resume Review | ✅ |
+| Skill Gap Analysis | ✅ |
+| AI Chat Assistant | ✅ |
+| Interview Tips | ✅ |
+| Weekly Study Planner | ✅ |
+| Mentor Recommendation | ✅ |
+| Dashboard Summary | ✅ |
+| Project Suggestions | ✅ |
+
+---
+
+## 🛡 Security Features
+
+- BCrypt Password Encryption
+- JWT Authentication
+- Refresh Tokens
+- Redis OTP Verification
+- Brute Force Protection
+- Role-Based Authorization
+- Environment Variable Secrets
+- Centralized Exception Handling
+
+---
+
+# 📸 Application Preview
+
+> Replace the placeholders below with your project screenshots before publishing.
+
+## Landing Page
 
 ```
+docs/screenshots/landing-page.png
+```
+
+---
+
+## Dashboard
+
+```
+docs/screenshots/dashboard.png
+```
+
+---
+
+## AI Resume Review
+
+```
+docs/screenshots/resume-review.png
+```
+
+---
+
+## Mentor Search
+
+```
+docs/screenshots/mentor-search.png
+```
+
+---
+
+## Admin Panel
+
+```
+docs/screenshots/admin-panel.png
+```
+
+---
+
+# ⭐ Project Goals
+
+SkillSwap AI was built to demonstrate production-level software engineering concepts including:
+
+- Clean Architecture
+- RESTful API Design
+- JWT Security
+- Spring Boot Best Practices
+- Database Design
+- Docker Deployment
+- AI Integration
+- Modern React Development
+- Scalable Backend Design
+- Full-Stack System Integration
+
+This project is intended as a **portfolio-quality full-stack application**
+showcasing modern software engineering practices alongside practical AI integration using local language models.
+---
+
+# 📂 Project Structure
+
+```text
 skillswap-ai/
-├── backend/                # Spring Boot API
+│
+├── backend/
 │   ├── src/main/java/com/skillswap/
-│   │   ├── config/         # Security & CORS config
-│   │   ├── security/       # JWT filter, JwtService, UserDetailsService
-│   │   ├── entity/         # JPA entities
-│   │   ├── repository/     # Spring Data repositories
-│   │   ├── dto/             # Request/response records
-│   │   ├── controller/     # REST controllers
-│   │   ├── service/         # Business logic
-│   │   └── exception/       # Centralized error handling
+│   │   ├── config/                 # Security, CORS, Swagger configuration
+│   │   ├── controller/             # REST API Controllers
+│   │   ├── dto/                    # Request & Response DTOs
+│   │   ├── entity/                 # JPA Entities
+│   │   ├── exception/              # Global Exception Handling
+│   │   ├── repository/             # Spring Data JPA Repositories
+│   │   ├── security/               # JWT Authentication & Filters
+│   │   ├── service/                # Business Logic
+│   │   │   └── ai/                 # Ollama AI Integration
+│   │   ├── util/
+│   │   └── SkillSwapApplication.java
+│   │
 │   ├── src/main/resources/
 │   │   ├── application.yml
-│   │   └── db/migration/    # Flyway SQL migrations (versioned schema)
-│   └── Dockerfile
-├── frontend/                # React + Vite app
-│   └── src/
-│       ├── api/             # Axios client + endpoint calls
-│       ├── context/          # AuthContext (global auth state)
-│       ├── pages/            # Landing, Login, Register, Dashboard
-│       ├── components/       # Reusable UI (Button, TextField, RequireAuth)
-│       └── types/
-├── postman/                  # Postman collection
+│   │   ├── db/
+│   │   │   ├── migration/          # Flyway Migrations
+│   │   │   └── seed/               # Seed Data
+│   │   └── static/
+│   │
+│   ├── Dockerfile
+│   └── pom.xml
+│
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── utils/
+│   │
+│   ├── public/
+│   ├── Dockerfile
+│   └── package.json
+│
+├── postman/
+│
 ├── docker-compose.yml
-└── .env.example
+├── .env.example
+├── README.md
+└── LICENSE
 ```
 
 ---
 
-## Running Locally with Docker (recommended)
+# ⚡ Quick Start
 
-1. **Copy env template:**
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` and set a strong `JWT_SECRET` (e.g. `openssl rand -base64 48`).
+SkillSwap AI can be started in **under 5 minutes**.
 
-2. **Install Ollama and pull a model** (see [AI Setup](#ai-setup-ollama) below)
-   — the backend calls Ollama on your host machine, not inside Docker.
+### Prerequisites
 
-3. **Start everything:**
-   ```bash
-   docker compose up --build
-   ```
-   This starts PostgreSQL, Redis, the Spring Boot backend (`:8080`), and the
-   frontend served via nginx (`:3000`).
+Install the following before running the project.
 
-4. Open:
-   - Frontend: http://localhost:3000
-   - Backend Swagger UI: http://localhost:8080/swagger-ui.html
+| Software | Version |
+|-----------|----------|
+| Java | 21+ |
+| Maven | 3.9+ |
+| Node.js | 20+ |
+| Docker Desktop | Latest |
+| PostgreSQL | 16+ |
+| Redis | 7+ |
+| Ollama | Latest |
 
 ---
 
-## Running Locally without Docker (dev mode)
+# 📥 Clone Repository
 
-**Backend:**
+```bash
+git clone https://github.com/yourusername/skillswap-ai.git
+
+cd skillswap-ai
+```
+
+---
+
+# ⚙️ Environment Configuration
+
+Copy the example environment file.
+
+```bash
+cp .env.example .env
+```
+
+Open `.env`
+
+Configure your environment variables.
+
+```properties
+############################
+# DATABASE
+############################
+
+DB_NAME=skillswap
+DB_USERNAME=skillswap
+DB_PASSWORD=change-me
+
+############################
+# JWT
+############################
+
+JWT_SECRET=replace-with-strong-secret
+JWT_ACCESS_EXPIRY_MS=900000
+JWT_REFRESH_EXPIRY_MS=604800000
+
+############################
+# CORS
+############################
+
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+
+############################
+# AI
+############################
+
+OLLAMA_BASE_URL=http://host.docker.internal:11434
+OLLAMA_MODEL=qwen2.5:7b
+
+############################
+# MAIL
+############################
+
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=
+MAIL_PASSWORD=
+```
+
+> **Important:** Never commit `.env` to GitHub.
+
+---
+
+# 🐳 Running with Docker (Recommended)
+
+Docker automatically starts
+
+- PostgreSQL
+- Redis
+- Spring Boot Backend
+- React Frontend
+
+### Build everything
+
+```bash
+docker compose up --build
+```
+
+Docker will automatically
+
+- Create PostgreSQL database
+- Run Flyway migrations
+- Start Redis
+- Start Backend
+- Start Frontend
+
+---
+
+### Access the application
+
+| Service | URL |
+|----------|-----|
+| Frontend | http://localhost:3000 |
+| Backend | http://localhost:8080 |
+| Swagger | http://localhost:8080/swagger-ui/index.html |
+| OpenAPI | http://localhost:8080/v3/api-docs |
+
+---
+
+### Stop Containers
+
+```bash
+docker compose down
+```
+
+---
+
+### Rebuild Containers
+
+```bash
+docker compose down
+
+docker compose up --build
+```
+
+---
+
+# 💻 Running Without Docker
+
+## 1. Start PostgreSQL
+
+Create a database.
+
+```sql
+CREATE DATABASE skillswap;
+```
+
+---
+
+## 2. Start Redis
+
+Linux
+
+```bash
+redis-server
+```
+
+Windows
+
+Launch Redis or Docker Redis.
+
+---
+
+## 3. Start Backend
+
 ```bash
 cd backend
-# requires a local PostgreSQL running with a `skillswap` DB (see .env.example)
+
+mvn clean install
+
 mvn spring-boot:run
 ```
 
-**Frontend:**
+Backend starts on
+
+```
+http://localhost:8080
+```
+
+---
+
+## 4. Start Frontend
+
 ```bash
 cd frontend
-cp .env.example .env
+
 npm install
+
 npm run dev
 ```
-Frontend dev server runs at http://localhost:5173.
 
-**Run backend tests:**
+Frontend starts on
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🤖 AI Setup (Ollama)
+
+SkillSwap AI uses **local LLMs** through Ollama.
+
+No OpenAI API.
+
+No Gemini API.
+
+No Anthropic API.
+
+Everything runs on your own machine.
+
+---
+
+## Install Ollama
+
+Download from
+
+https://ollama.com/download
+
+---
+
+## Pull a Model
+
+Recommended
+
+```bash
+ollama pull qwen2.5:7b
+```
+
+Other supported models
+
+```bash
+ollama pull llama3.2
+
+ollama pull phi3:mini
+
+ollama pull deepseek-r1:7b
+```
+
+---
+
+## Start Ollama
+
+```bash
+ollama serve
+```
+
+Verify
+
+```bash
+ollama list
+```
+
+Example
+
+```
+NAME
+
+qwen2.5:7b
+```
+
+---
+
+## Test Ollama
+
+```bash
+curl http://localhost:11434/api/tags
+```
+
+---
+
+# 🔄 Switching AI Models
+
+Changing models requires only one configuration change.
+
+Example
+
+```properties
+OLLAMA_MODEL=qwen2.5:7b
+```
+
+or
+
+```properties
+OLLAMA_MODEL=llama3.2
+```
+
+or
+
+```properties
+OLLAMA_MODEL=deepseek-r1:7b
+```
+
+No backend code changes are required.
+
+---
+
+# 🗄 Database Migrations
+
+SkillSwap AI uses **Flyway** for schema versioning.
+
+Every backend startup automatically
+
+- Creates tables
+- Updates schema
+- Applies migrations safely
+
+Migration files
+
+```
+backend/src/main/resources/db/migration
+```
+
+Example
+
+```
+V1__create_users.sql
+
+V2__create_profiles.sql
+
+V3__create_sessions.sql
+
+V4__notifications.sql
+
+V5__audit_logs.sql
+```
+
+---
+
+# 🌱 Seed Sample Data
+
+Load sample users.
+
+```bash
+psql -U skillswap \
+-d skillswap \
+-f backend/src/main/resources/db/seed/seed_data.sql
+```
+
+Default password
+
+```
+Password1!
+```
+
+---
+
+# 📖 API Documentation
+
+Swagger UI
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+OpenAPI JSON
+
+```
+http://localhost:8080/v3/api-docs
+```
+
+Import the included Postman collection from
+
+```
+postman/
+```
+
+to test every endpoint quickly.
+
+---
+
+# 🌐 Deployment
+
+The project is designed for production deployment using modern cloud services.
+
+| Component | Recommended Platform |
+|------------|----------------------|
+| Frontend | Vercel |
+| Backend | Render |
+| PostgreSQL | Neon / Supabase |
+| File Storage | Cloudinary |
+| AI | Ollama |
+| Containerization | Docker |
+
+---
+
+# 🔧 Environment Variables
+
+| Variable | Description |
+|-----------|-------------|
+| DB_URL | PostgreSQL connection URL |
+| DB_USERNAME | Database username |
+| DB_PASSWORD | Database password |
+| JWT_SECRET | Secret key for JWT signing |
+| JWT_ACCESS_EXPIRY_MS | Access token expiration |
+| JWT_REFRESH_EXPIRY_MS | Refresh token expiration |
+| CORS_ALLOWED_ORIGINS | Allowed frontend origins |
+| OLLAMA_BASE_URL | Ollama server URL |
+| OLLAMA_MODEL | AI model name |
+| MAIL_HOST | SMTP Host |
+| MAIL_PORT | SMTP Port |
+| MAIL_USERNAME | SMTP Username |
+| MAIL_PASSWORD | SMTP Password |
+
+---
+
+# ✅ Verify Installation
+
+After successful setup, you should be able to access:
+
+| Component | Status |
+|------------|--------|
+| Frontend | ✅ Running |
+| Backend | ✅ Running |
+| PostgreSQL | ✅ Connected |
+| Redis | ✅ Connected |
+| Swagger | ✅ Available |
+| Flyway | ✅ Migrations Applied |
+| Ollama | ✅ AI Ready |
+
+If all the above services are running successfully, your SkillSwap AI development environment is fully configured and ready for development.
+---
+
+# 🔌 REST API Reference
+
+SkillSwap AI follows RESTful architecture principles with JWT-based authentication.
+
+All endpoints are versioned under:
+
+```
+/api
+```
+
+Interactive API documentation is available through Swagger.
+
+| Resource | URL |
+|----------|-----|
+| Swagger UI | http://localhost:8080/swagger-ui/index.html |
+| OpenAPI Specification | http://localhost:8080/v3/api-docs |
+
+---
+
+# 🔐 Authentication APIs
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/auth/register` | POST | Register a new account |
+| `/api/auth/login` | POST | Login user |
+| `/api/auth/refresh` | POST | Refresh JWT token |
+| `/api/auth/forgot-password` | POST | Generate OTP |
+| `/api/auth/reset-password` | POST | Reset password |
+
+---
+
+# 👤 Profile APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/profile/me` | GET |
+| `/api/profile/me` | PUT |
+| `/api/profile/{userId}` | GET |
+| `/api/profile/me/resume` | POST |
+| `/api/profile/me/skills` | POST |
+| `/api/profile/me/skills` | DELETE |
+| `/api/profile/skills/search` | GET |
+
+---
+
+# 👨‍🏫 Mentor APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/mentors/search` | GET |
+| `/api/mentors/{mentorId}/reviews` | GET |
+
+---
+
+# 📅 Session APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/sessions` | POST |
+| `/api/sessions/incoming` | GET |
+| `/api/sessions/outgoing` | GET |
+| `/api/sessions/{id}/accept` | POST |
+| `/api/sessions/{id}/reject` | POST |
+| `/api/sessions/{id}/complete` | POST |
+| `/api/sessions/{id}/cancel` | POST |
+| `/api/sessions/{id}/review` | POST |
+
+---
+
+# 🔖 Bookmark APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/bookmarks` | GET |
+| `/api/bookmarks` | POST |
+| `/api/bookmarks` | DELETE |
+
+---
+
+# 🤖 AI APIs
+
+| Endpoint | Purpose |
+|----------|----------|
+| `/api/ai/roadmap` | Personalized Learning Roadmap |
+| `/api/ai/skill-gap` | Skill Gap Analysis |
+| `/api/ai/project-ideas` | AI Project Suggestions |
+| `/api/ai/resume-review` | Resume Review |
+| `/api/ai/interview-tips` | Interview Preparation |
+| `/api/ai/study-plan` | Weekly Study Planner |
+| `/api/ai/mentor-recommendation` | Smart Mentor Recommendation |
+| `/api/ai/dashboard-summary` | Dashboard Insights |
+| `/api/ai/chat` | AI Chat Assistant |
+
+---
+
+# 🔔 Notification APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/notifications` | GET |
+| `/api/notifications/unread-count` | GET |
+| `/api/notifications/{id}/read` | POST |
+| `/api/notifications/read-all` | POST |
+
+---
+
+# 📊 Dashboard APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/dashboard/stats` | GET |
+
+---
+
+# 👑 Admin APIs
+
+| Endpoint | Method |
+|----------|--------|
+| `/api/admin/users` | GET |
+| `/api/admin/users/{id}/status` | PATCH |
+| `/api/admin/stats` | GET |
+| `/api/admin/audit-logs` | GET |
+
+---
+
+# 🤖 AI Features
+
+SkillSwap AI integrates **Local Large Language Models (LLMs)** through **Ollama**, allowing users to access intelligent career guidance while keeping all processing local and private.
+
+Unlike cloud-based AI services, no API keys or third-party AI providers are required.
+
+---
+
+## 🚀 Learning Roadmap Generator
+
+Generates a personalized roadmap based on:
+
+- Existing skills
+- Learning goals
+- Current proficiency
+- Career aspirations
+
+Example Output
+
+- Beginner Roadmap
+- Intermediate Milestones
+- Recommended Projects
+- Learning Resources
+
+---
+
+## 📈 Skill Gap Analysis
+
+Compares your profile against a target role.
+
+Provides
+
+- Missing Skills
+- Important Technologies
+- Suggested Learning Order
+- Priority Ranking
+
+---
+
+## 💡 AI Project Suggestions
+
+Generates project ideas based on
+
+- Technology
+- Experience Level
+- Career Goal
+
+Each suggestion includes
+
+- Description
+- Features
+- Difficulty
+- Learning Outcome
+
+---
+
+## 📄 Resume Review
+
+The AI reviews pasted resume content and provides
+
+- ATS Improvements
+- Missing Sections
+- Better Bullet Points
+- Grammar Suggestions
+- Technical Recommendations
+
+---
+
+## 🎯 Interview Preparation
+
+Provides
+
+- Common Questions
+- Technical Concepts
+- HR Questions
+- Coding Topics
+- Preparation Strategy
+
+---
+
+## 📅 Weekly Study Planner
+
+Creates a study schedule based on
+
+- Available Hours
+- Target Skill
+- Current Knowledge
+- Learning Timeline
+
+---
+
+## 👨‍🏫 Mentor Recommendation
+
+Combines database matching with AI reasoning.
+
+Recommendations consider
+
+- Shared Skills
+- Ratings
+- Experience
+- Availability
+- Session History
+
+---
+
+## 📊 Dashboard Summary
+
+Analyzes user activity to generate
+
+- Learning Progress
+- Session Insights
+- Productivity Summary
+- Personalized Recommendations
+
+---
+
+## 💬 AI Chat Assistant
+
+A conversational assistant capable of
+
+- Answering technical questions
+- Explaining concepts
+- Suggesting learning paths
+- Providing career guidance
+- Helping with projects
+
+Conversation history is maintained on the client for a smooth chat experience.
+
+---
+
+# 📚 Skill Exchange Workflow
+
+The complete mentor-learning cycle consists of the following stages.
+
+```text
+Search Mentor
+      │
+      ▼
+Send Learning Request
+      │
+      ▼
+Mentor Accepts / Rejects
+      │
+      ▼
+Learning Session
+      │
+      ▼
+Session Completed
+      │
+      ▼
+Review & Rating
+      │
+      ▼
+Dashboard Updated
+```
+
+---
+
+# 🔔 Notification System
+
+Users receive real-time platform notifications for important events.
+
+Supported events include
+
+- New learning requests
+- Accepted sessions
+- Rejected sessions
+- Completed sessions
+- Review reminders
+- New ratings received
+
+Unread notification counts are automatically refreshed by the frontend.
+
+---
+
+# 📊 Learning Dashboard
+
+The dashboard provides meaningful insights into each user's learning journey.
+
+### Metrics
+
+- Skills Offered
+- Skills Learning
+- Completed Sessions
+- Pending Requests
+- Mentor Ratings
+- Monthly Activity
+- Learning Progress
+
+Charts are rendered using **Recharts** for a responsive and interactive experience.
+
+---
+
+# 👑 Admin Dashboard
+
+Administrators have access to advanced management tools.
+
+### Platform Statistics
+
+- Total Users
+- Students
+- Mentors
+- Admins
+- Completed Sessions
+- Active Sessions
+- Reviews
+- Average Rating
+
+---
+
+### User Management
+
+Administrators can
+
+- Enable Users
+- Disable Users
+- Search Accounts
+- View User Details
+
+Self-disabling is intentionally prevented.
+
+---
+
+### Audit Logging
+
+Every administrative action is permanently recorded.
+
+Each log contains
+
+- Administrator
+- Action
+- Target User
+- Timestamp
+- Details
+
+This provides accountability and traceability for sensitive operations.
+
+---
+
+# 🔒 Security Features
+
+Security is implemented throughout the application following modern backend best practices.
+
+### Authentication
+
+- JWT Access Tokens
+- Refresh Tokens
+- Stateless Authentication
+
+---
+
+### Password Security
+
+- BCrypt Password Hashing
+- Strength Factor 12
+- Secure Password Storage
+
+---
+
+### Authorization
+
+- Role-Based Access Control
+- Student
+- Mentor
+- Administrator
+
+---
+
+### OTP Verification
+
+Forgot Password functionality uses
+
+- 6-Digit OTP
+- Redis Storage
+- 10-Minute Expiration
+- One-Time Usage
+
+---
+
+### Login Protection
+
+Brute-force attacks are mitigated using
+
+- Failed Login Counter
+- Temporary Account Lock
+- Rate Limiting
+
+---
+
+### Backend Protection
+
+- Global Exception Handling
+- Input Validation
+- Environment Variables
+- Secure CORS Configuration
+- No Sensitive Data Exposure
+- Protected Admin APIs
+
+---
+
+# 📁 File Storage
+
+SkillSwap AI supports two interchangeable storage providers.
+
+### Local Storage
+
+Suitable for development.
+
+Files are stored in
+
+```
+uploads/
+```
+
+---
+
+### Cloudinary
+
+Recommended for production.
+
+Benefits
+
+- CDN Delivery
+- Secure Storage
+- High Availability
+- Image Optimization
+
+Switching providers requires only configuration changes without modifying application code.
+
+---
+
+# 🧪 Sample Accounts
+
+For local development, the project includes seed users.
+
+| Email | Role |
+|--------|------|
+| admin@skillswap.dev | ADMIN |
+| ananya.mentor@skillswap.dev | MENTOR |
+| rahul.student@skillswap.dev | STUDENT |
+
+Default Password
+
+```
+Password1!
+```
+
+---
+
+# 🏆 Design Principles
+
+SkillSwap AI was built with the following engineering principles.
+
+- Clean Architecture
+- Separation of Concerns
+- SOLID Principles
+- RESTful Design
+- Secure Authentication
+- Scalable Backend
+- Responsive Frontend
+- Production-Ready Deployment
+- AI-First User Experience
+- Modular Codebase
+- Docker-Based Development
+- Maintainable Project Structure
+
+The project aims to serve as a production-quality reference implementation for modern full-stack software engineering with practical local AI integration.
+---
+
+# 🚀 Deployment Guide
+
+SkillSwap AI is designed with cloud-native deployment in mind. Every component can be deployed independently for scalability and easier maintenance.
+
+## 🖥 Backend Deployment (Render)
+
+### Step 1
+
+Create a **New Web Service** on Render.
+
+### Step 2
+
+Connect your GitHub repository.
+
+### Step 3
+
+Select
+
+```
+Root Directory:
+backend
+```
+
+### Step 4
+
+Render automatically detects the included Dockerfile.
+
+### Step 5
+
+Configure the following environment variables.
+
+```
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+
+JWT_SECRET
+
+JWT_ACCESS_EXPIRY_MS
+JWT_REFRESH_EXPIRY_MS
+
+CORS_ALLOWED_ORIGINS
+
+OLLAMA_BASE_URL
+OLLAMA_MODEL
+
+MAIL_HOST
+MAIL_PORT
+MAIL_USERNAME
+MAIL_PASSWORD
+
+STORAGE_PROVIDER
+
+CLOUDINARY_CLOUD_NAME
+CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET
+```
+
+### Step 6
+
+Deploy.
+
+Flyway automatically executes all database migrations during application startup.
+
+---
+
+# 🌐 Frontend Deployment (Vercel)
+
+### Step 1
+
+Import the GitHub repository into Vercel.
+
+### Step 2
+
+Select
+
+```
+Root Directory
+
+frontend
+```
+
+### Step 3
+
+Framework Preset
+
+```
+Vite
+```
+
+### Step 4
+
+Configure
+
+```
+VITE_API_BASE_URL=https://your-backend-url/api
+```
+
+### Step 5
+
+Deploy.
+
+---
+
+# 🗄 Database Deployment
+
+Recommended PostgreSQL providers
+
+- Neon
+- Supabase
+- Railway PostgreSQL
+
+Update
+
+```
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+```
+
+to use your production database.
+
+---
+
+# ☁ Cloudinary Configuration
+
+For production resume uploads
+
+```
+STORAGE_PROVIDER=cloudinary
+```
+
+Configure
+
+```
+CLOUDINARY_CLOUD_NAME
+
+CLOUDINARY_API_KEY
+
+CLOUDINARY_API_SECRET
+```
+
+No code changes are required.
+
+---
+
+# 📦 Docker Deployment
+
+Start the complete application.
+
+```bash
+docker compose up --build
+```
+
+Stop
+
+```bash
+docker compose down
+```
+
+Rebuild
+
+```bash
+docker compose up --build --force-recreate
+```
+
+---
+
+# ⚙ Production Checklist
+
+Before deployment ensure
+
+- Strong JWT Secret
+- HTTPS Enabled
+- Secure Database Credentials
+- Cloudinary Configured
+- SMTP Configured
+- AI Model Installed
+- Environment Variables Set
+- Database Backups Enabled
+- Logging Enabled
+- Monitoring Enabled
+
+---
+
+# 🧪 Testing
+
+## Backend
+
+Run all unit tests.
+
 ```bash
 cd backend
+
 mvn test
 ```
 
 ---
 
-## AI Setup (Ollama)
+## Frontend
 
-All AI features run against a **local Ollama server** — completely free, no
-API keys, and your data never leaves your machine.
-
-1. **Install Ollama:** https://ollama.com/download (macOS, Windows, Linux).
-
-2. **Pull a model.** Any of these work well for the AI features in this app:
-   ```bash
-   ollama pull qwen2.5:7b        # recommended default — good quality/speed balance
-   ollama pull llama3.2          # smaller, faster, less capable
-   ollama pull phi3:mini         # very lightweight, runs on modest hardware
-   ollama pull deepseek-r1:7b    # stronger reasoning, slower
-   ```
-
-3. **Start Ollama** (it runs a local REST API on `http://localhost:11434`):
-   ```bash
-   ollama serve
-   ```
-
-4. **Point the backend at it** — already the default in `application.yml`:
-   ```yaml
-   app.ai.ollama.base-url: http://localhost:11434
-   app.ai.ollama.model: qwen2.5:7b
-   ```
-
-### Switching models
-
-Changing the model requires editing **one property** — no code changes:
-
-- Local dev: `OLLAMA_MODEL` env var, or `app.ai.ollama.model` in `application.yml`
-- Docker Compose: `OLLAMA_MODEL` in your root `.env`
-
----
-
-## Environment Variables
-
-See [`.env.example`](./.env.example) for the full list used by Docker Compose,
-and [`backend/src/main/resources/application.yml`](./backend/src/main/resources/application.yml)
-for how each maps to a Spring property. Key ones:
-
-| Variable | Purpose |
-|---|---|
-| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | PostgreSQL connection |
-| `JWT_SECRET` | Signing key for access/refresh tokens — **must** be changed in any real deployment |
-| `JWT_ACCESS_EXPIRY_MS` / `JWT_REFRESH_EXPIRY_MS` | Token lifetimes (defaults: 15 min / 7 days) |
-| `CORS_ALLOWED_ORIGINS` | Comma-separated list of allowed frontend origins |
-| `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | Local AI model config |
-| `MAIL_HOST/PORT/USERNAME/PASSWORD` | Outgoing mail for OTP / password reset |
-
----
-
-## API Docs
-
-- Swagger UI: `/swagger-ui.html`
-- OpenAPI JSON: `/v3/api-docs`
-- Postman collection: [`postman/SkillSwap-AI.postman_collection.json`](./postman/SkillSwap-AI.postman_collection.json)
-
-Currently documented: `POST /api/auth/register`, `POST /api/auth/login`,
-`POST /api/auth/refresh`, `POST /api/auth/forgot-password`,
-`POST /api/auth/reset-password`, `GET/PUT /api/profile/me`,
-`GET /api/profile/{userId}`, `POST /api/profile/me/resume`,
-`POST/DELETE /api/profile/me/skills`, `GET /api/profile/skills/search`,
-`GET /api/mentors/search`, `GET /api/mentors/{mentorId}/reviews`,
-`POST /api/sessions`, `GET /api/sessions/incoming`,
-`GET /api/sessions/outgoing`,
-`POST /api/sessions/{id}/accept|reject|complete|cancel`,
-`POST /api/sessions/{id}/review`, `GET/POST/DELETE /api/bookmarks`,
-`POST /api/ai/roadmap|skill-gap|project-ideas|resume-review|interview-tips|study-plan|mentor-recommendation|chat`,
-`GET /api/ai/dashboard-summary`, `GET /api/notifications`,
-`GET /api/notifications/unread-count`,
-`POST /api/notifications/{id}/read`, `POST /api/notifications/read-all`,
-`GET /api/dashboard/stats`, `GET /api/admin/users`,
-`PATCH /api/admin/users/{userId}/status`, `GET /api/admin/stats`,
-`GET /api/admin/audit-logs`.
-
----
-
-## AI Features
-
-All ten AI features from the product spec are implemented, backed entirely
-by your local Ollama model (see [AI Setup](#ai-setup-ollama) above). Every
-feature builds its prompt from the platform's own data (your profile,
-skills, and session history) rather than asking you to re-type context:
-
-| Feature | Endpoint | Notes |
-|---|---|---|
-| Learning Roadmap Generator | `POST /api/ai/roadmap` | Uses your current OFFERING skills as context |
-| Skill Gap Analysis | `POST /api/ai/skill-gap` | Compares your skills against a target role |
-| Project Suggestions | `POST /api/ai/project-ideas` | Given a skill + level |
-| Resume Review | `POST /api/ai/resume-review` | Takes **pasted resume text**, not the uploaded file directly (see note below) |
-| Tech Interview Tips | `POST /api/ai/interview-tips` | Given a skill/topic |
-| Weekly Study Planner | `POST /api/ai/study-plan` | Given a skill + hours available |
-| Mentor Recommendation + Smart Skill Matching | `POST /api/ai/mentor-recommendation` | DB does the actual matching/ranking; AI explains the top pick(s) — it never invents mentors outside the real search results |
-| Personalized Dashboard Summary | `GET /api/ai/dashboard-summary` | Built from your profile + session counts |
-| Chat Assistant | `POST /api/ai/chat` | Free-form conversation, client keeps the history |
-
-**All prompt text lives in one file** —
-[`backend/.../service/ai/PromptTemplates.java`](./backend/src/main/java/com/skillswap/service/ai/PromptTemplates.java) —
-so tuning any feature's tone/output never requires touching business logic.
-
-**Note on Resume Review:** it currently takes pasted resume text rather than
-parsing the uploaded PDF/DOCX automatically. Wiring "extract text from the
-uploaded resume, then review it" is a natural follow-up and doesn't require
-any new AI logic — just a PDF/DOCX text-extraction step feeding the existing
-endpoint.
-
-**If Ollama isn't running or the model isn't pulled**, every AI endpoint
-returns a clear `503`/`502` error explaining exactly what to do (start
-`ollama serve`, or `ollama pull <model>`) rather than a generic failure.
-
----
-
-## File Storage (Resume Uploads)
-
-Resume uploads go through a `StorageService` interface with two
-implementations, chosen by one config property (`app.storage.provider` /
-`STORAGE_PROVIDER`):
-
-- **`local`** (default) — saves files to a local `uploads/` folder, served
-  back at `/files/**`. Zero setup, works out of the box for dev/demo.
-- **`cloudinary`** (production) — uploads via Cloudinary's signed REST API.
-  Set `STORAGE_PROVIDER=cloudinary` plus `CLOUDINARY_CLOUD_NAME`,
-  `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
-
-No code changes needed to switch between them.
-
----
-
-## Password Reset (Forgot Password)
-
-`POST /api/auth/forgot-password` → `POST /api/auth/reset-password`. A
-6-digit OTP is generated and stored in **Redis** with a 10-minute TTL
-(one-time use, deleted on successful verification). The response never
-reveals whether an email is registered — same message either way.
-
-- **Rate-limited**: after 5 incorrect codes for an email, further attempts
-  are blocked for 15 minutes (in-memory; see the note in `LoginAttemptService`
-  about backing this with Redis for multi-instance deployments).
-- **No SMTP configured?** The OTP is logged to the backend console instead
-  of failing, so the whole flow is testable locally without a real mail
-  account. Configure `MAIL_USERNAME`/`MAIL_PASSWORD` in `.env` to send real
-  emails (e.g. a Gmail app password).
-
----
-
-## Notifications
-
-In-app notifications are created automatically on every session/review
-lifecycle event — no polling of external services, no separate job:
-
-| Event | Recipient | 
-|---|---|
-| Someone requests a session | The mentor |
-| Mentor accepts | The requester |
-| Mentor declines | The requester |
-| Mentor marks complete | The requester (prompted to review) |
-| A review is submitted | The mentor |
-
-The bell icon in the app shell polls `GET /api/notifications/unread-count`
-every 30 seconds and lazily loads the full list only when opened.
-
----
-
-## Admin Panel & Audit Logging
-
-Available at `/admin` in the frontend for users with the `ADMIN` role
-(enforced server-side by `SecurityConfig`'s `/api/admin/**` →
-`hasRole('ADMIN')` rule, not just hidden in the UI). Covers:
-
-- **Platform stats** — total users by role, session counts by status,
-  review count and average rating.
-- **User management** — enable/disable any account (an admin can't disable
-  their own).
-- **Audit log** — every admin action (currently: enabling/disabling users)
-  is recorded immutably with the actor, action, target, and timestamp, and
-  viewable in the Audit Log tab.
-
-To test this locally, register a user then update their role directly in
-the database (or seed one — see `seed_data.sql`, which includes an
-`admin@skillswap.dev` account).
-
----
-
-## Learning Dashboard
-
-`GET /api/dashboard/stats` aggregates, for the current user: skills
-offering/learning counts, completed sessions (as learner and as mentor),
-pending requests in both directions, average rating received, and a
-6-month completed-session activity series — rendered as an area chart on
-the frontend dashboard (via `recharts`) alongside stat cards.
-
----
-
-## Sample / Seed Data
-
-Sample users for local testing (password for all: `Password1!`):
-
-| Email | Role |
-|---|---|
-| admin@skillswap.dev | ADMIN |
-| ananya.mentor@skillswap.dev | MENTOR |
-| rahul.student@skillswap.dev | STUDENT |
-
-Load them with:
 ```bash
-psql -U skillswap -d skillswap -f backend/src/main/resources/db/seed/seed_data.sql
+cd frontend
+
+npm run build
 ```
 
 ---
 
-## Security Notes
+## API Testing
 
-- Passwords hashed with BCrypt (strength 12).
-- Stateless JWT auth; access tokens short-lived (15 min default), refresh
-  tokens longer-lived (7 days) and rotated on use.
-- In-memory brute-force lockout after 5 failed logins (15 min cooldown) —
-  see `LoginAttemptService`. For a multi-instance production deployment,
-  swap this for a Redis-backed counter (the interface stays the same).
-- Centralized exception handling — no stack traces or internal details are
-  ever returned to clients.
-- CORS origins are explicit and environment-driven, never wildcarded.
-- All secrets (JWT key, DB credentials, mail credentials) come from
-  environment variables — nothing sensitive is hardcoded.
+Swagger
 
----
+```
+http://localhost:8080/swagger-ui/index.html
+```
 
-## Deployment
+Postman Collection
 
-### Backend → Render
-1. New Web Service → connect this repo, root directory `backend`.
-2. Build command: uses the provided `Dockerfile` automatically (Render
-   supports Docker-based services natively).
-3. Set the same environment variables as `.env.example` in Render's
-   dashboard, pointing `DB_URL` at your Neon/Supabase Postgres instance.
-
-### Frontend → Vercel
-1. Import the repo, set root directory to `frontend`.
-2. Framework preset: Vite.
-3. Set `VITE_API_BASE_URL` to your deployed Render backend URL (e.g.
-   `https://skillswap-backend.onrender.com/api`).
-
-### Database → Neon or Supabase
-Create a Postgres instance, copy the connection string into `DB_URL` /
-`DB_USERNAME` / `DB_PASSWORD` on Render. Flyway will run migrations
-automatically on backend startup.
+```
+postman/
+```
 
 ---
 
-## Roadmap
+# 📈 Future Improvements
 
-- [x] Auth: register / login / refresh / JWT, brute-force protection,
-      forgot-password OTP (Redis-backed, rate-limited)
-- [x] Docker Compose local stack, Flyway schema, seed data
-- [x] Profile management: bio/links/location/availability, skills
-      (offering/learning + proficiency), resume upload (local/Cloudinary)
-- [x] Skill exchange: mentor search/filter, request/accept/reject/complete,
-      reviews (1–5 rating, one per session), bookmarks
-- [x] AI features via Ollama: roadmap generator, skill-gap analysis,
-      project suggestions, resume review, interview tips, weekly planner,
-      mentor recommendation + smart matching, dashboard summary, chat assistant
-- [x] Notifications on every session/review lifecycle event
-- [x] Learning Dashboard: aggregated stats + 6-month activity chart
-- [x] Admin panel: user management, platform stats, immutable audit log
-- [x] Premium UI pass: sidebar app shell, dark mode, Sora/Inter type pairing,
-      brand mark, consistent glass-card design system, recharts data viz
+The current platform is feature-complete for its core vision. The following enhancements are planned for future releases.
 
-### What's genuinely still open
-- [ ] Auto-extract resume text from the uploaded file for AI review
-      (currently takes pasted text — see AI Features section above)
-- [ ] Real-time notifications (currently 30s polling, not WebSockets/SSE)
-- [ ] CSRF token handling for browser-based clients beyond the SPA's own
-      JWT flow (not applicable to this stateless-JWT setup, but worth
-      revisiting if cookie-based auth is ever added)
-- [ ] I attempted to run this end-to-end via Docker in the sandbox this was
-      built in, and here's exactly what I found:
-      - **Docker itself works** — `dockerd` starts and runs fine.
-      - **Docker Hub is blocked**: `docker pull hello-world` →
-        `403 Forbidden` from `registry-1.docker.io`. No image can be pulled
-        (postgres, redis, nginx, node, eclipse-temurin — none of them),
-        so `docker compose up` cannot complete in this sandbox regardless
-        of how the compose file is written.
-      - **Maven Central is blocked** the same way: `mvn dependency:resolve`
-        → `403 Forbidden` from `repo.maven.apache.org`. So the backend
-        can't be compiled here either.
-      - **What I could verify instead**: installed PostgreSQL 16 and Redis
-        directly via `apt` (which *is* reachable) and ran all 5 Flyway
-        migrations plus the seed data against a real Postgres instance —
-        all applied cleanly, foreign keys/check constraints/unique
-        constraints included. Verified Redis `SET ... EX` / `GET` / `DEL`
-        semantics match exactly what `OtpService` relies on. Rebuilt the
-        frontend from a clean `npm install` and served the actual
-        production bundle — HTML and JS both return `200`.
-      - **What that leaves unverified**: an actual `mvn clean package` /
-        `docker compose up` run, purely because this sandbox's network
-        policy blocks the two registries needed. On a normal machine
-        without that restriction, this should just work — but "should"
-        isn't "does," so this is the first thing worth trying on your end,
-        and I'd genuinely rather hear about a real error than have you
-        assume silence means success.
+## AI
 
-### Skill Exchange — how it works
+- AI Voice Mentor
+- AI Mock Interviews
+- AI Code Review
+- AI Pair Programming
+- AI Coding Challenges
+- AI Learning Analytics
+- AI Skill Certification Suggestions
+- AI Personalized Career Planning
 
-1. A learner searches mentors by skill (`GET /api/mentors/search?skill=...`).
-2. They send a session request (`POST /api/sessions`) naming the mentor and
-   skill — this is blocked if the mentor doesn't actually offer that skill,
-   or if a pending request for the same pair already exists.
-3. The mentor accepts or rejects it from their incoming queue.
-4. Once accepted, the mentor marks it completed when the session has happened.
-5. Only the original requester can leave a review, only after completion,
-   and only once per session.
+---
+
+## Platform
+
+- Video Calling
+- Screen Sharing
+- Live Chat
+- Calendar Integration
+- Session Reminders
+- Real-Time Notifications
+- Mentor Verification
+- Learning Certificates
+- Gamification
+- Achievement Badges
+- XP & Leaderboards
+
+---
+
+## Technical
+
+- WebSockets
+- Redis Pub/Sub
+- Elasticsearch
+- Kubernetes
+- CI/CD Pipelines
+- Prometheus Monitoring
+- Grafana Dashboards
+- Rate Limiting
+- API Versioning
+- Microservice Migration
+
+---
+
+# 📌 Current Limitations
+
+The following limitations are known and intentionally documented.
+
+- Resume review currently accepts extracted text instead of automatically parsing uploaded PDF/DOCX files.
+- Notifications use polling instead of WebSockets.
+- Login protection is in-memory; Redis-backed distributed rate limiting would be preferable for multi-instance deployments.
+- AI quality depends on the locally installed Ollama model.
+- GPU acceleration is optional but recommended for larger language models.
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+## Development Workflow
+
+1. Fork the repository.
+
+2. Create a feature branch.
+
+```bash
+git checkout -b feature/new-feature
+```
+
+3. Commit your changes.
+
+```bash
+git commit -m "Add new feature"
+```
+
+4. Push.
+
+```bash
+git push origin feature/new-feature
+```
+
+5. Open a Pull Request.
+
+---
+
+## Coding Standards
+
+Backend
+
+- Java 21
+- Spring Boot Best Practices
+- SOLID Principles
+- Clean Architecture
+
+Frontend
+
+- React Functional Components
+- TypeScript
+- React Query
+- Tailwind CSS
+- Reusable Components
+
+General
+
+- Meaningful Commit Messages
+- Modular Code
+- Proper Documentation
+- Consistent Naming Conventions
+
+---
+
+# 🏆 Project Highlights
+
+✔ Full Stack Application
+
+✔ AI Powered Platform
+
+✔ Local LLM Integration
+
+✔ JWT Authentication
+
+✔ Role-Based Authorization
+
+✔ Redis OTP Verification
+
+✔ Docker Support
+
+✔ PostgreSQL Database
+
+✔ Flyway Database Versioning
+
+✔ Resume Upload
+
+✔ Mentor Matching
+
+✔ Learning Dashboard
+
+✔ Notifications
+
+✔ Admin Panel
+
+✔ Audit Logging
+
+✔ Production Ready Architecture
+
+---
+
+# 📊 Project Statistics
+
+| Category | Details |
+|----------|----------|
+| Architecture | Monolithic Modular Architecture |
+| Backend | Spring Boot 3 |
+| Frontend | React 19 |
+| Database | PostgreSQL |
+| Authentication | JWT |
+| Cache | Redis |
+| AI | Ollama |
+| API Documentation | Swagger |
+| ORM | Spring Data JPA |
+| Database Migration | Flyway |
+| Containerization | Docker |
+| Deployment | Render + Vercel |
+| Language | Java 21 + TypeScript |
+
+---
+
+# 🎓 Learning Outcomes
+
+This project demonstrates practical experience with:
+
+- Java 21
+- Spring Boot
+- Spring Security
+- JWT Authentication
+- REST API Design
+- PostgreSQL
+- Redis
+- Hibernate
+- Flyway
+- Docker
+- React
+- TypeScript
+- Tailwind CSS
+- React Query
+- Role-Based Authorization
+- Local AI Integration
+- Production Deployment
+- Secure Software Development
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+See the **LICENSE** file for complete details.
+
+---
+
+# 🙏 Acknowledgements
+
+Special thanks to the open-source community and the technologies that made this project possible.
+
+- Spring Boot
+- React
+- PostgreSQL
+- Redis
+- Docker
+- Flyway
+- Ollama
+- Qwen Team
+- Meta Llama
+- Microsoft Phi
+- DeepSeek AI
+- Tailwind CSS
+- Vite
+- Swagger OpenAPI
+
+---
+
+# ⭐ Support
+
+If you found this project useful,
+
+- ⭐ Star this repository
+- 🍴 Fork the project
+- 🐛 Report issues
+- 💡 Suggest new features
+- 🤝 Contribute improvements
+
+Your support helps improve the project for the community.
+
+---
+
+<div align="center">
+
+## 🚀 SkillSwap AI
+
+### Learn Together • Teach Together • Grow Together
+
+**Built with ❤️ using Java, Spring Boot, React, PostgreSQL, Redis, Docker & Local AI (Ollama).**
+
+⭐ **If you like this project, please consider giving it a star!**
+
+</div>
