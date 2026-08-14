@@ -253,7 +253,7 @@ inside one ecosystem.
 ## Landing Page
 
 ```
-docs/screenshots/landing-page.png
+docs/screenshots/landing-page.png.png
 ```
 
 ---
@@ -261,15 +261,15 @@ docs/screenshots/landing-page.png
 ## Dashboard
 
 ```
-docs/screenshots/dashboard.png
+docs/screenshots/dashboard.png.png
 ```
 
 ---
 
-## AI Resume Review
+## AI Analyze
 
 ```
-docs/screenshots/resume-review.png
+docs/screenshots/AI-Analysis.png.png
 ```
 
 ---
@@ -277,18 +277,11 @@ docs/screenshots/resume-review.png
 ## Mentor Search
 
 ```
-docs/screenshots/mentor-search.png
+docs/screenshots/mentor-search.png.png
 ```
 
 ---
 
-## Admin Panel
-
-```
-docs/screenshots/admin-panel.png
-```
-
----
 
 # ⭐ Project Goals
 
