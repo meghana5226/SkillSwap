@@ -248,8 +248,6 @@ inside one ecosystem.
 
 # 📸 Application Preview
 
-> Replace the placeholders below with your project screenshots before publishing.
-
 ## Landing Page
 
 ```
