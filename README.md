@@ -253,7 +253,7 @@ inside one ecosystem.
 ## Landing Page
 
 ```
-docs/screenshots/landing-page.png.png
+docs/screenshots/landing-page.png
 ```
 
 ---
@@ -261,7 +261,7 @@ docs/screenshots/landing-page.png.png
 ## Dashboard
 
 ```
-docs/screenshots/dashboard.png.png
+docs/screenshots/dashboard.png
 ```
 
 ---
@@ -269,7 +269,7 @@ docs/screenshots/dashboard.png.png
 ## AI Analyze
 
 ```
-docs/screenshots/AI-Analysis.png.png
+docs/screenshots/AI-Analysis.png
 ```
 
 ---
@@ -277,7 +277,7 @@ docs/screenshots/AI-Analysis.png.png
 ## Mentor Search
 
 ```
-docs/screenshots/mentor-search.png.png
+docs/screenshots/mentor-search.png
 ```
 
 ---
